@@ -10,6 +10,16 @@ I use this program to cluster my malware collection
 (based on certain threshold value).
 
 
+Requirements
+-------------
+
+*	ffuzzy++ 4.0  
+	<https://github.com/a4lg/ffuzzypp>
+
+There's no Makefile because this entire program is a hack.
+Please build it yourself.
+
+
 File Format : Fuzzy hash list
 ------------------------------
 
