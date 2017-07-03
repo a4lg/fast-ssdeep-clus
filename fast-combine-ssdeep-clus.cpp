@@ -171,12 +171,11 @@ int main(int argc, char** argv)
 {
 	bool print_progress = true;
 	int interval = SSDEEP_PROGINTV;
-	char* comment;
+	char* comment = nullptr;
 	auto t_start = chrono::system_clock::now();
 	// Read arguments
 	if (argc < 3)
 		usage(argv[0]);
-	comment = argv[1];
 	try
 	{
 		for (int i = 3; i < argc; i++)
@@ -315,13 +314,26 @@ int main(int argc, char** argv)
 			auto t_current = chrono::system_clock::now();
 			auto t_delta = chrono::duration_cast<chrono::seconds>(t_current - t_start);
 			unsigned long long t_count = static_cast<unsigned long long>(t_delta.count());
-			fprintf(stderr,
-				"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s]\n",
-				(unsigned long long)(t_count / 3600u),
-				(unsigned long long)((t_count / 60u) % 60u),
-				(unsigned long long)(t_count % 60u),
-				(unsigned long long)progress,
-				threshold, comment);
+			if (comment)
+			{
+				fprintf(stderr,
+					"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s]\n",
+					(unsigned long long)(t_count / 3600u),
+					(unsigned long long)((t_count / 60u) % 60u),
+					(unsigned long long)(t_count % 60u),
+					(unsigned long long)progress,
+					threshold, comment);
+			}
+			else
+			{
+				fprintf(stderr,
+					"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s -> %s]\n",
+					(unsigned long long)(t_count / 3600u),
+					(unsigned long long)((t_count / 60u) % 60u),
+					(unsigned long long)(t_count % 60u),
+					(unsigned long long)progress,
+					threshold, argv[1], argv[2]);
+			}
 		}
 		if (progress == filesigs_size1)
 			break;
@@ -351,13 +363,26 @@ int main(int argc, char** argv)
 		auto t_current = chrono::system_clock::now();
 		auto t_delta = chrono::duration_cast<chrono::seconds>(t_current - t_start);
 		unsigned long long t_count = static_cast<unsigned long long>(t_delta.count());
-		fprintf(stderr,
-			"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s]\n",
-			(unsigned long long)(t_count / 3600u),
-			(unsigned long long)((t_count / 60u) % 60u),
-			(unsigned long long)(t_count % 60u),
-			(unsigned long long)filesigs_size1,
-			threshold, comment);
+		if (comment)
+		{
+			fprintf(stderr,
+				"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s]\n",
+				(unsigned long long)(t_count / 3600u),
+				(unsigned long long)((t_count / 60u) % 60u),
+				(unsigned long long)(t_count % 60u),
+				(unsigned long long)filesigs_size1,
+				threshold, comment);
+		}
+		else
+		{
+			fprintf(stderr,
+				"%5llu:%02llu:%02llu %12llu  [(threshold=%d) %s -> %s]\n",
+				(unsigned long long)(t_count / 3600u),
+				(unsigned long long)((t_count / 60u) % 60u),
+				(unsigned long long)(t_count % 60u),
+				(unsigned long long)filesigs_size1,
+				threshold, argv[1], argv[2]);
+		}
 	}
 	// Quit
 	return 0;
