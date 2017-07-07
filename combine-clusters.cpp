@@ -126,11 +126,13 @@ int main(int argc, char** argv)
 	unordered_set<const string*>* current = new unordered_set<const string*>();
 	clusters.insert(current);
 
+	// Read clusters
 	string ln;
 	while (getline(cin, ln))
 	{
 		if (!ln.size())
 		{
+			// End of the cluster
 			if (current->size())
 			{
 				current = new unordered_set<const string*>();
@@ -154,6 +156,7 @@ int main(int argc, char** argv)
 			auto p = all_values.find(&ln);
 			if (p == all_values.end())
 			{
+				// New digest (does not combine)
 				string* newstr = new string(ln);
 				all_values.insert(newstr);
 				current->insert(newstr);
@@ -161,6 +164,7 @@ int main(int argc, char** argv)
 			}
 			else
 			{
+				// Existing digest (combine)
 				auto cluster_to_merge = cluster_map[*p];
 				if (cluster_to_merge != current)
 				{
