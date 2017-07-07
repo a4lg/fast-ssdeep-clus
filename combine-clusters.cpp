@@ -36,6 +36,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 using namespace std;
 
@@ -168,6 +169,11 @@ int main(int argc, char** argv)
 				auto cluster_to_merge = cluster_map[*p];
 				if (cluster_to_merge != current)
 				{
+					if (current->size() > cluster_to_merge->size())
+					{
+						// Preserve bigger cluster for efficiency
+						swap(current, cluster_to_merge);
+					}
 					for (auto q : *current)
 					{
 						cluster_to_merge->insert(q);
