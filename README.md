@@ -10,6 +10,24 @@ I use this program to cluster my malware collection
 (based on certain threshold value).
 
 
+What is ssdeep clustering mode?
+--------------------------------
+
+ssdeep 2.9 or later implements simple clustering mode.
+
+*	If digest `A` and digest `B` are similar enough,
+	`A` and `B` are in the same cluster.
+*	If `A` and `B` are similar enough and `B` and `C` also are,
+	all `A`, `B` and `C` are in the same cluster
+	(even if `A` and `C` are NOT similar enough).
+
+Based on the threshold value `t`, two digests are treated as "similar"
+if the similarity score of them is greater than `t`.
+
+If you are familiar with clustering, you can see that this is just
+single-linkage clustering with a fixed distance value.
+
+
 Requirements
 -------------
 
