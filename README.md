@@ -141,15 +141,17 @@ Usage
 ```
 # threshold = 79, number of threads = 8
 
-# to make cluster list
+# Make cluster list:
 $ fast-ssdeep-clus -t 79 -n 8 all.ssdeep | sort-clusters >all.clusters.79.txt
 
-# to make clusters gradually
+# Make clusters gradually:
+# assuming that all.ssdeep and delta.ssdeep does not intersect (have no common elements)
 $ fast-ssdeep-clus -t 79 -n 8 delta.ssdeep >delta.clusters.79.0
 $ fast-combine-ssdeep-clus -t 79 -n 8 delta.ssdeep all.ssdeep >delta.clusters.79.1
 $ cat all.clusters.79.txt delta.clusters.79.0 delta.clusters.79.1 \
 	| combine-clusters | sort-clusters >all.clusters.79.txt.new
 $ mv all.clusters.79.txt.new all.clusters.79.txt
+$ cat delta.ssdeep >>all.ssdeep
 ```
 
 
